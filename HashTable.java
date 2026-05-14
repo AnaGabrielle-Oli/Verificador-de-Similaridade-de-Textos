@@ -2,6 +2,7 @@ public class HashTable{
     ItemVocabulario[] tabela;
     int tamanho;
     int numElementos;
+    int totalColisoes;
 
     public class ItemVocabulario{
         String palavra;
@@ -17,15 +18,28 @@ public class HashTable{
 
     public HashTable(int tamanho){
         this.tamanho = tamanho;
-        this.tabela = new ItemVocabulario;
+        this.tabela = new ItemVocabulario[tamanho];
         this.numElementos = 0;
+        this.totalColisoes = 0;
     }
 
-    private int insercaoPolinomial(String palavra){
+    private void insercaoPolinomial(String palavra){
         int h = 0;
         for (int i = 0; i < palavra.length(); i++)
             h = (31 * h + palavra.charAt(i)) % tamanho;
-        return (h & 0x7fffffff) % tamanho;
+        int indice = (h & 0x7fffffff) % tamanho;
+
+        while (atual != null) {
+            if (atual.palavra.equals(palavra)) {
+                atual.frequencia++;
+                return;
+            }
+            atual = atual.proximo;
+        }
+
+        ItemVocabulario novo = new ItemVocabulario(palavra, 1, tabela[indice]);
+        tabela[indice] = novo; 
+        this.numElementos++;
     }
 
     private void insercaoDivisao(String palavra){
@@ -36,17 +50,16 @@ public class HashTable{
         }
 
         int indice = (soma & 0x7fffffff) % tamanho; 
-        ItemVocabulario atual = table[indice];
+        ItemVocabulario atual = tabela[indice];
         while (atual != null){
             if (atual.palavra.equals(palavra)){
                 atual.frequncia++;
                 return;
             }
-            atual.proximo;
+            atual = atual.proximo;
         }
         ItemVocabulario novo = new ItemVocabulario(palavra, 1, tabela[indice]);
         tabela[indice] = novo;
         this.numElementos++;
-    }
-    
+    }    
 }
