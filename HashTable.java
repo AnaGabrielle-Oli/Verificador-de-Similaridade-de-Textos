@@ -1,7 +1,13 @@
 public class HashTable {
+    public enum MetodoHash {
+        POLINOMIAL,
+        DIVISAO
+    }
+
     ItemVocabulario[] tabela;
     int tamanho;
     int numElementos;
+    private MetodoHash metodo;
     int totalColisoes;
 
     public class ItemVocabulario {
@@ -16,15 +22,20 @@ public class HashTable {
         }
     }
 
-    public HashTable(int tamanho) {
+    public HashTable(int tamanho, MetodoHash metodo) {
         this.tamanho = tamanho;
+        this.metodo = metodo;
         this.tabela = new ItemVocabulario[tamanho];
         this.numElementos = 0;
         this.totalColisoes = 0;
     }
 
     public void inserir(String palavra) {
-        insercaoPolinomial(palavra);
+        if (metodo == MetodoHash.DIVISAO) {
+            insercaoDivisao(palavra);
+        } else {
+            insercaoPolinomial(palavra);
+        }
     }
 
     private void insercaoPolinomial(String palavra) {

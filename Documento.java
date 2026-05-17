@@ -6,9 +6,9 @@ public class Documento{
     String nomeArquivo;
     HashTable tabela;
 
-    public Documento(String nome){
+    public Documento(String nome, HashTable.MetodoHash metodo){
         this.nomeArquivo = nome;
-        this.tabela = new HashTable(1024);
+        this.tabela = new HashTable(1024, metodo);
     }
 
     public void processarDocumento(){

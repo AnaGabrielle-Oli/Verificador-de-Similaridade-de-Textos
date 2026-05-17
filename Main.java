@@ -17,6 +17,7 @@ public class Main {
             return;
         }
 
+        HashTable.MetodoHash metodo = HashTable.MetodoHash.DIVISAO;
         String diretorio = args[0];
         double limiar = Double.parseDouble(args[1]);
         String modo = args[2].toLowerCase();
@@ -33,8 +34,8 @@ public class Main {
                 String nomeArq1 = args[3];
                 String nomeArq2 = args[4];
 
-                Documento doc1 = new Documento(diretorio + "/" + nomeArq1);
-                Documento doc2 = new Documento(diretorio + "/" + nomeArq2);
+                Documento doc1 = new Documento(diretorio + "/" + nomeArq1, metodo);
+                Documento doc2 = new Documento(diretorio + "/" + nomeArq2, metodo);
                 
                 doc1.processarDocumento();
                 doc2.processarDocumento();
@@ -57,7 +58,7 @@ public class Main {
                 List<Documento> listaDocumentos = new ArrayList<>();
                 for (File f : arquivos) {
                     if (f.isFile() && f.getName().endsWith(".txt")) {
-                        Documento doc = new Documento(f.getAbsolutePath());
+                        Documento doc = new Documento(f.getAbsolutePath(), metodo);
                         doc.processarDocumento();
                         listaDocumentos.add(doc);
                     }
