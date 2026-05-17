@@ -1,3 +1,7 @@
+//Ana Gabrielle da Silva Oliveira     RA: 10721801
+//Pedro Tessaro Augusto               RA: 10723715
+//Ricardo Dias Pimenta                RA: 10723451
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
