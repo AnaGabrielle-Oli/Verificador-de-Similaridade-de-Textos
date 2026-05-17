@@ -1,0 +1,1 @@
+A alocacao de memoria na linguagem C e fundamental para o desempenho. O uso de ponteiros e funcoes como malloc e free pode causar vazamento de memoria se o programador nao tiver cuidado. Entender a fundo o hardware e a arquitetura ajuda muito.

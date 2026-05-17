@@ -1,0 +1,1 @@
+Estudar algoritmos e estruturas de dados pelo livro do Cormen garante uma base teorica muito solida. Implementar tabelas hash do zero e balancear arvores AVL sao exercicios classicos na ciencia da computacao.

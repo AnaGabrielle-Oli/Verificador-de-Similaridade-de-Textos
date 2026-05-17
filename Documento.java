@@ -8,7 +8,7 @@ public class Documento{
 
     public Documento(String nome){
         this.nomeArquivo = nome;
-        this.tabela = new HashTable();
+        this.tabela = new HashTable(1024);
     }
 
     public void processarDocumento(){

@@ -1,48 +1,86 @@
-class No{
-    int dado;
+import java.util.ArrayList;
+import java.util.List;
+
+class No {
+    double dado;
     No esq, dir;
     int bal;
+    List<Resultado> listaResultados; 
 
-    public No(int valor){
+    public No(double valor, Resultado res) {
         this.dado = valor;
         this.esq = null;
         this.dir = null;
         this.bal = 0;
+        this.listaResultados = new ArrayList<>();
+        this.listaResultados.add(res);
     }
 }
 
-public class AVLTree{
+public class AVLTree {
 
     No raiz;
+    public int totalRotacoes = 0;
 
-    public AVLTree(int valor){
-        this.raiz = insere(this.raiz, valor);
+    public AVLTree() {
+        this.raiz = null;
     }
 
-    No insere(No p, int valor) {
-        if (p == null){
-            p = new No(valor);
+    public void inserir(double valor, Resultado res) {
+        boolean[] h = {false};
+        this.raiz = insere(this.raiz, valor, h, res);
+    }
+
+    No insere(No p, double valor, boolean[] h, Resultado res) {
+        if (p == null) {
+            p = new No(valor, res);
+            h[0] = true;
         }
-        else if (valor < p.dado){ 
-            p.esq = insere(p.esq, valor);
-            switch (p.bal) {
-                case 1: p.bal = 0; break;
-                case 0: p.bal = -1; break;
-                case -1: p = caso1(p); break;
+        else if (valor < p.dado) { 
+            p.esq = insere(p.esq, valor, h, res);
+            if (h[0]) {
+                switch (p.bal) {
+                    case 1: 
+                        p.bal = 0; 
+                        h[0] = false; 
+                        break; 
+                    case 0: 
+                        p.bal = -1; 
+                        break; 
+                    case -1:
+                        p = caso1(p); 
+                        h[0] = false; 
+                        break; 
+                }
             }
         }
-        else if (valor > p.dado){
-            p.dir = insere(p.dir, valor);
-            switch (p.bal) {
-                case -1: p.bal = 0; break;
-                case 0: p.bal = 1; break;
-                case 1: p = caso2(p); break;
+        else if (valor > p.dado) {
+            p.dir = insere(p.dir, valor, h, res);
+            if (h[0]) {
+                switch (p.bal) {
+                    case -1: 
+                        p.bal = 0; 
+                        h[0] = false; 
+                        break; 
+                    case 0: 
+                        p.bal = 1; 
+                        break; 
+                    case 1: 
+                        p = caso2(p); 
+                        h[0] = false; 
+                        break; 
+                }
             }
+        }
+        else {
+            p.listaResultados.add(res);
+            h[0] = false;
         }
         return p;
     }
 
     No caso1(No p) {
+        totalRotacoes++;
         No u, v;
         u = p.esq;
         
@@ -53,6 +91,7 @@ public class AVLTree{
             p = u;
         }
         else { 
+            totalRotacoes++;
             v = u.dir;
             u.dir = v.esq;
             p.esq = v.dir;
@@ -72,6 +111,7 @@ public class AVLTree{
     }
 
     No caso2(No p){
+        totalRotacoes++;
         No z, y;
         z = p.dir;
 
@@ -82,6 +122,7 @@ public class AVLTree{
             p = z;
         }
         else {
+            totalRotacoes++;
             y = z.esq;
             z.esq = y.dir;
             p.dir = y.esq;
@@ -100,4 +141,3 @@ public class AVLTree{
         return p;
     }
 }
-

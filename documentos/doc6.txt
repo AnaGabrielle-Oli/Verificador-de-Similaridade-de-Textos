@@ -1,0 +1,1 @@
+A implementacao da tabela hash precisa de uma boa funcao de dispersao para evitar colisoes. O tratamento de colisoes por encadeamento utiliza listas ligadas em cada indice do vetor. Isso garante a complexidade de busca muito eficiente em casos reais.

@@ -1,33 +1,41 @@
-public class HashTable{
+public class HashTable {
     ItemVocabulario[] tabela;
     int tamanho;
     int numElementos;
     int totalColisoes;
 
-    public class ItemVocabulario{
+    public class ItemVocabulario {
         String palavra;
         int frequencia;
         ItemVocabulario proximo;
 
-        public ItemVocabulario(String palavra, int frequencia, ItemVocabulario proximo){
+        public ItemVocabulario(String palavra, int frequencia, ItemVocabulario proximo) {
             this.palavra = palavra;
             this.frequencia = frequencia;
             this.proximo = proximo;
         }
     }
 
-    public HashTable(int tamanho){
+    public HashTable(int tamanho) {
         this.tamanho = tamanho;
         this.tabela = new ItemVocabulario[tamanho];
         this.numElementos = 0;
         this.totalColisoes = 0;
     }
 
-    private void insercaoPolinomial(String palavra){
+    public void inserir(String palavra) {
+        insercaoPolinomial(palavra);
+    }
+
+    private void insercaoPolinomial(String palavra) {
         int h = 0;
         for (int i = 0; i < palavra.length(); i++)
             h = (31 * h + palavra.charAt(i)) % tamanho;
         int indice = (h & 0x7fffffff) % tamanho;
+
+        ItemVocabulario atual = tabela[indice];
+        
+        if (atual != null) this.totalColisoes++; 
 
         while (atual != null) {
             if (atual.palavra.equals(palavra)) {
@@ -42,18 +50,20 @@ public class HashTable{
         this.numElementos++;
     }
 
-    private void insercaoDivisao(String palavra){
+    private void insercaoDivisao(String palavra) {
         int soma = 0;
-
         for(int i = 0; i < palavra.length(); i++){
             soma += palavra.charAt(i);
         }
 
         int indice = (soma & 0x7fffffff) % tamanho; 
         ItemVocabulario atual = tabela[indice];
+        
+        if (atual != null) this.totalColisoes++;
+
         while (atual != null){
             if (atual.palavra.equals(palavra)){
-                atual.frequncia++;
+                atual.frequencia++; 
                 return;
             }
             atual = atual.proximo;
@@ -62,4 +72,20 @@ public class HashTable{
         tabela[indice] = novo;
         this.numElementos++;
     }    
+
+    public int buscarFrequencia(String palavra) {
+        int h = 0;
+        for (int i = 0; i < palavra.length(); i++)
+            h = (31 * h + palavra.charAt(i)) % tamanho;
+        int indice = (h & 0x7fffffff) % tamanho;
+
+        ItemVocabulario atual = tabela[indice];
+        while (atual != null) {
+            if (atual.palavra.equals(palavra)) {
+                return atual.frequencia;
+            }
+            atual = atual.proximo;
+        }
+        return 0; 
+    }
 }
